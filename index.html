@@ -5,7 +5,7 @@
     <title>Neighborhood Map</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
     <link href="navigation.css" rel="stylesheet" type="text/css" />
-    <link href="single-informations.css" rel="stylesheet" type="text/css" />
+    <link href="single-box.css" rel="stylesheet" type="text/css" />
     <link href="map.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
@@ -20,46 +20,12 @@
         <li class="navigation__item"><a href="#">Brasília</a></li>
       </ul>
     </div>
-    <div class="single-informations">
-      <h1>Brasília</h1>
-      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever </p>
+    <div class="single-box">
+      <h1 data-title>Brasília</h1>
+      <p data-description>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever </p>
     </div>
     <div id="map"></div>
-    <script>
-      function initMap() {
-        var uluru = {lat: -15.79, lng: -47.91};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 13,
-          center: uluru
-        });
-        new google.maps.Marker({
-          position: uluru,
-          map: map
-        });
-        new google.maps.Marker({
-          position: {lat: -15.896, lng: -47.8823},
-          map: map
-        });
-        new google.maps.Marker({
-          position: {lat: -15.796, lng: -47.8923},
-          map: map
-        });
-        new google.maps.Marker({
-          position: {lat: -15.786, lng: -47.8723},
-          map: map
-        });
-        new google.maps.Marker({
-          position: {lat: -15.770, lng: -47.8923},
-          map: map
-        });
-        new google.maps.Marker({
-          position: {lat: -15.810, lng: -47.8720},
-          map: map
-        });
-      }
-    </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAADVpgiFw7nICxq-yuLOt-3LPW__dmzQ&callback=initMap">
-    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAADVpgiFw7nICxq-yuLOt-3LPW__dmzQ&callback=initMap"></script>
+    <script async src="main.js"></script>
   </body>
 </html>
