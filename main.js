@@ -32,15 +32,31 @@ function initMap() {
   for(key in locations) {
     locations[key].marker = new google.maps.Marker({
       position: locations[key].position,
-      map: map
+      map: map,
+      animation: google.maps.Animation.DROP
     });
     openInfo(key);
   }
 }
 
 var openInfo = function(key) {
-  locations[key].marker.addListener('click', function() {
+  var marker = locations[key].marker;
 
+  marker.addListener('click', function() {
+
+    // Remove animation from all markers
+    for(key in locations) {
+      locations[key].marker.setAnimation(null);
+    }
+
+    // Animate clicked marker
+    if (marker.getAnimation() !== null) {
+      marker.setAnimation(null);
+    } else {
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+
+    // Create Single Box
     var singleBox = document.querySelector('.single-box');
     singleBox.innerHTML = '';
 
