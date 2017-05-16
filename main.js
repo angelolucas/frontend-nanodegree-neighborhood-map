@@ -23,12 +23,17 @@ function initMap() {
     center: uluru
   });
 
+  // Center map on Resize
+  google.maps.event.addDomListener(window, 'resize', function() {
+    map.setCenter(uluru);
+  })
+
+  // Create Markers
   for(key in locations) {
     locations[key].marker = new google.maps.Marker({
       position: locations[key].position,
       map: map
     });
-
     openInfo(key);
   }
 }
