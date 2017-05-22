@@ -43,10 +43,9 @@ var openInfo = function(key) {
   var marker = locations[key].marker;
 
   marker.addListener('click', function() {
-
     // Remove animation from all markers
-    for(key in locations) {
-      locations[key].marker.setAnimation(null);
+    for(i in locations) {
+      locations[i].marker.setAnimation(null);
     }
 
     // Animate clicked marker
@@ -59,7 +58,6 @@ var openInfo = function(key) {
     // Create Single Box
     var singleBox = document.querySelector('.single-box');
     singleBox.innerHTML = '';
-
     appendContent('h1', locations[key].title, singleBox);
     appendContent('p', locations[key].description, singleBox);
   });
