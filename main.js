@@ -69,3 +69,21 @@ var appendContent = function(tag, content, container){
   tag.appendChild(content);
   container.appendChild(tag);
 };
+
+var appendSidebar = function() {
+  var listSidebar = document.querySelector('.navigation__list');
+  for(i in locations) {
+    var item = document.createElement('li');
+    item.setAttribute('class', 'navigation__item');
+    item.setAttribute('data-item', i);
+    var a = document.createElement('a');
+    var title = document.createTextNode(locations[i].title);
+    item.appendChild(a);
+    a.appendChild(title);
+
+    listSidebar.appendChild(item);
+    console.log(i);
+  }
+}
+
+appendSidebar();
