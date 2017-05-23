@@ -1,0 +1,24 @@
+.main {
+  transition: 0.5s margin;
+  margin-left: 300px;
+  max-width: 100vw;
+}
+body.closed-navigation .main {
+  margin-left: 0;
+}
+
+#map {
+  width: 100%;
+  height: 50vh;
+  max-height: 90vh;
+}
+.single-box {
+  border-top: 1px solid #ccc;
+  padding: 10px;
+}
+/* Smartphone */
+@media (max-width: 600px) {
+  .main {
+    margin-left: 0;
+  }
+}

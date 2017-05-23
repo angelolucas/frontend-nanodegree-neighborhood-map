@@ -4,5 +4,5 @@
   box-sizing: border-box;
 }
 body {
-  font: 14px solid arial, sans-serif;
+  font: 14px monospace, arial, sans-serif;
 }
