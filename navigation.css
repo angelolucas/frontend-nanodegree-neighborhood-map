@@ -20,4 +20,8 @@
 .navigation__item {
   padding: 10px;
   border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+.navigation__item:hover {
+  color: #757575;
 }

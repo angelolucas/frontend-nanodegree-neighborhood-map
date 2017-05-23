@@ -35,34 +35,38 @@ function initMap() {
       map: map,
       animation: google.maps.Animation.DROP
     });
-    openInfo(key);
+    clickMarker(key);
   }
 }
 
-var openInfo = function(key) {
-  var marker = locations[key].marker;
-
-  marker.addListener('click', function() {
-    // Remove animation from all markers
-    for(i in locations) {
-      locations[i].marker.setAnimation(null);
-    }
-
-    // Animate clicked marker
-    if (marker.getAnimation() !== null) {
-      marker.setAnimation(null);
-    } else {
-      marker.setAnimation(google.maps.Animation.BOUNCE);
-    }
-
-    // Create Single Box
-    var singleBox = document.querySelector('.single-box');
-    singleBox.innerHTML = '';
-    appendContent('h1', locations[key].title, singleBox);
-    appendContent('p', locations[key].description, singleBox);
+var clickMarker = function(key) {
+  locations[key].marker.addListener('click', function() {
+    openLocation(key);
   });
 }
 
+var openLocation = function(key) {
+  var marker = locations[key].marker;
+  // Remove animation from all markers
+  for(i in locations) {
+    locations[i].marker.setAnimation(null);
+  }
+
+  // Animate clicked marker
+  if (marker.getAnimation() !== null) {
+    marker.setAnimation(null);
+  } else {
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+  }
+
+  // Create Single Box
+  var singleBox = document.querySelector('.single-box');
+  singleBox.innerHTML = '';
+  appendContent('h1', locations[key].title, singleBox);
+  appendContent('p', locations[key].description, singleBox);
+}
+
+// Recreates Content
 var appendContent = function(tag, content, container){
   var tag = document.createElement(tag);
   var content = document.createTextNode(content);
@@ -70,20 +74,24 @@ var appendContent = function(tag, content, container){
   container.appendChild(tag);
 };
 
+// List Sidebar
 var appendSidebar = function() {
   var listSidebar = document.querySelector('.navigation__list');
   for(i in locations) {
     var item = document.createElement('li');
     item.setAttribute('class', 'navigation__item');
     item.setAttribute('data-item', i);
+    item.setAttribute('onclick', 'openLocation("' + i + '")');
     var a = document.createElement('a');
     var title = document.createTextNode(locations[i].title);
     item.appendChild(a);
     a.appendChild(title);
 
     listSidebar.appendChild(item);
-    console.log(i);
   }
 }
 
 appendSidebar();
+
+// Click item in Sidebar
+var sidebarItem = document.querySelector('.navigation__item');
