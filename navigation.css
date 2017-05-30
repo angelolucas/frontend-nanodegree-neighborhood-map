@@ -1,15 +1,15 @@
 .navigation {
   transition: 0.5s;
-  background: white;
+  background: #FF757D;
+  color: #322F7C;
   position: fixed;
   top: 0;
   left: 0;
   width: 300px;
   height: 100vh;
   z-index: 3;
-  border-right: 1px solid #ccc;
+  border-right: 2px dashed #422b8e;
   padding: 10px;
-
 }
 body.closed-navigation .navigation {
   transform: translateX(-100%);
@@ -24,11 +24,20 @@ body.closed-navigation .navigation {
 }
 .navigation__item {
   padding: 10px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 2px dashed #422B8E;
   cursor: pointer;
 }
 .navigation__item:hover {
-  color: #757575;
+  color: black;
+}
+.navigation__about {
+  padding: 10px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.navigation__about span {
+  display: block;
 }
 
 /* Toggle Button */
@@ -40,22 +49,22 @@ body.closed-navigation .navigation {
   top: 0;
   border: none;
   cursor: pointer;
-  padding: 22px;
+  padding: 32px;
 }
 .navigation__toggle span,
 .navigation__toggle span:before,
 .navigation__toggle span:after{
   border-radius: 50px;
   transition: 0.5s;
-  background: black;
+  background: #FF757D;
   position: absolute;
   height: 3px;
   width: 20px;
 }
 .navigation__toggle span{
   background: transparent;
-  left: 10px;
-  top: 20px;
+  left: 20px;
+  top: 30px;
 }
 .navigation__toggle span:before,
 .navigation__toggle span:after {
@@ -78,7 +87,7 @@ body.closed-navigation span:after{
   transform: rotateZ(0deg);
 }
 body.closed-navigation span {
-  background: black
+  background: #FF757D;
 }
 
 /* Smartphone */
