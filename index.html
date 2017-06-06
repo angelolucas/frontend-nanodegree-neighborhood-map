@@ -11,9 +11,16 @@
   <body class="closed-navigation">
     <div class="navigation">
       <button class="navigation__toggle"><span></span></button>
-      <input class="navigation__input" type="text">
-      <button class="navigation__search-button">Go</button>
-      <ul class="navigation__list"></ul>
+      <input class="navigation__input" placeholder="filter" type="text">
+
+      <ul data-bind="foreach: locations">
+        <li class="navigation__item"><span data-bind="text: title"></span></li>
+      </ul>
+
+      <div class="navigation__about">
+        <span>Udacity Neighborhood Map</span>
+        <span>By Ângelo Lucas. 2017</span>
+      </div>
     </div>
     <main class="main">
       <div id="map"></div>
@@ -22,7 +29,8 @@
         <p data-description>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever </p>
       </div>
     </main>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAADVpgiFw7nICxq-yuLOt-3LPW__dmzQ&callback=initMap"></script>
+    <!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAADVpgiFw7nICxq-yuLOt-3LPW__dmzQ&callback=initMap"></script>-->
+    <script src="http://knockoutjs.com/downloads/knockout-3.4.2.js"></script>
     <script async src="main.js"></script>
   </body>
 </html>
