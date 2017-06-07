@@ -18,13 +18,37 @@ var locations = [
     title: "Whatever",
     description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever "
   },
-]
+];
 
 function AppViewModel() {
   var self = this;
 
   self.locations = ko.observableArray(locations);
-}
+
+  self.title = ko.observable("Brasília");
+  self.description = ko.observable("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever");
+
+  // Open Informations About the Location
+  self.openLocation = function(key) {
+    //var marker = locations[key].marker;
+
+    // Remove animation from all markers
+    /*for(i in locations) {
+      locations[i].marker.setAnimation(null);
+    }*/
+
+    // Animate clicked marker
+    /*if (marker.getAnimation() !== null) {
+      marker.setAnimation(null);
+    } else {
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+    }*/
+
+    // Create Single Box
+    self.title(locations[key].title);
+    self.description(locations[key].description);
+  }
+};
 
 ko.applyBindings(new AppViewModel());
 
@@ -45,50 +69,21 @@ function initMap() {
   })
 
   // Create Markers
-  for(key in locations) {
-    locations[key].marker = new google.maps.Marker({
+  for (var i = 0; i < locations.length; i++) {
+    console.log('entrou', i, locations[i] );
+    locations[i].marker = new google.maps.Marker({
       position: locations[key].position,
       map: map,
       animation: google.maps.Animation.DROP
     });
-    clickMarker(key);
+    clickMarker(i);
   }
-}
+};
 
-var clickMarker = function(key) {
-  locations[key].marker.addListener('click', function() {
-    openLocation(key);
+var clickMarker = function(index) {
+  locations[index].marker.addListener('click', function() {
+    openLocation(index);
   });
-}
-
-// Open Informations About the Location
-var openLocation = function(key) {
-  var marker = locations[key].marker;
-  // Remove animation from all markers
-  for(i in locations) {
-    locations[i].marker.setAnimation(null);
-  }
-
-  // Animate clicked marker
-  if (marker.getAnimation() !== null) {
-    marker.setAnimation(null);
-  } else {
-    marker.setAnimation(google.maps.Animation.BOUNCE);
-  }
-
-  // Create Single Box
-  var singleBox = document.querySelector('.single-box');
-  singleBox.innerHTML = '';
-  appendContent('h1', locations[key].title, singleBox);
-  appendContent('p', locations[key].description, singleBox);
-}
-
-// Update Content
-var appendContent = function(tag, content, container){
-  var tag = document.createElement(tag);
-  var content = document.createTextNode(content);
-  tag.appendChild(content);
-  container.appendChild(tag);
 };
 
 // Show and Hide Navigation
@@ -100,16 +95,14 @@ var toggleNavigation = function() {
   } else {
     body.setAttribute('class', 'closed-navigation');
   }
-}
+};
 
 // Closed Navigation for Mobile
 if (document.body.clientWidth > 600) {
   toggleNavigation();
-}
+};
+
 var toggleButton = document.querySelector('.navigation__toggle');
 toggleButton.addEventListener('click', function() {
   toggleNavigation();
-})
-
-// Click item in Sidebar
-var sidebarItem = document.querySelector('.navigation__item');
+});

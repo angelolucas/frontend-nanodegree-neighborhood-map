@@ -14,7 +14,10 @@
       <input class="navigation__input" placeholder="filter" type="text">
 
       <ul data-bind="foreach: locations">
-        <li class="navigation__item"><span data-bind="text: title"></span></li>
+        <li
+          class="navigation__item"
+          data-bind="click: function() { $parent.openLocation( $index() ) }"
+        ><span data-bind="text: title"></span></li>
       </ul>
 
       <div class="navigation__about">
@@ -25,11 +28,11 @@
     <main class="main">
       <div id="map"></div>
       <div class="single-box">
-        <h1 data-title>Brasília</h1>
-        <p data-description>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever </p>
+        <h1 data-bind="text: title"></h1>
+        <p data-bind="text: description"></p>
       </div>
     </main>
-    <!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAADVpgiFw7nICxq-yuLOt-3LPW__dmzQ&callback=initMap"></script>-->
+    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC41H8UxUw2S_xvwbuisJpK-t3UHGTfjWE&callback=initMap"></script> -->
     <script src="http://knockoutjs.com/downloads/knockout-3.4.2.js"></script>
     <script async src="main.js"></script>
   </body>
