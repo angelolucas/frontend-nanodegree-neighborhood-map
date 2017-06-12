@@ -28,6 +28,36 @@ function AppViewModel() {
   self.title = ko.observable("Brasília");
   self.description = ko.observable("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever");
 
+  // Array containing only the markers based on search
+  self.visible = self.locations;
+
+  // Track user input
+  self.userInput = ko.observable('');
+
+  // If user input is included in the place name, make it and its marker visible
+  // Otherwise, remove the place & marker
+  self.filterMarkers = function () {
+
+    // Set all markers and places to not visible.
+    var searchInput = self.userInput().toLowerCase();
+
+    self.visible.removeAll();
+
+    self.locations().forEach(function (place) {
+      //place.marker.setVisible(false);
+      // Compare the name of each place to user input
+      // If user input is included in the name, set the place and marker as visible
+      if (place.name().toLowerCase().indexOf(searchInput) !== -1) {
+        self.visible.push(place);
+      }
+    });
+    self.visible().forEach(function (place) {
+      place.marker.setVisible(true);
+    });
+  };
+
+
+
   // Open Informations About the Location
   self.openLocation = function(key) {
     //var marker = locations[key].marker;
@@ -53,7 +83,14 @@ function AppViewModel() {
 ko.applyBindings(new AppViewModel());
 
 // Init Map
-function initMap() {
+//function initMap() {
+
+var clickMarker = function(index) {
+  locations[index].marker.addListener('click', function() {
+    openLocation(index);
+  });
+};
+
   var uluru = {lat: -15.79, lng: -47.91};
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 13,
@@ -70,21 +107,16 @@ function initMap() {
 
   // Create Markers
   for (var i = 0; i < locations.length; i++) {
-    console.log('entrou', i, locations[i] );
     locations[i].marker = new google.maps.Marker({
-      position: locations[key].position,
+      position: locations[i].position,
       map: map,
       animation: google.maps.Animation.DROP
     });
     clickMarker(i);
   }
-};
+//};
 
-var clickMarker = function(index) {
-  locations[index].marker.addListener('click', function() {
-    openLocation(index);
-  });
-};
+
 
 // Show and Hide Navigation
 var toggleNavigation = function() {
