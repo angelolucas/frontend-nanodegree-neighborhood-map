@@ -1,18 +1,21 @@
 // Locations
 var locations = [
   {
+    id: 0,
     name: 'estadio',
     position: {lat: -15.796, lng: -47.95},
     title: "Estadio de Futebol",
     description: "Estádio Nacional de Brasília Mané Garrincha, também conhecido como simplesmente Mané Garrincha, é um estádio de futebol e arena multiuso brasileiro, situado em Brasília, no Distrito Federal."
   },
   {
+    id: 1,
     name: 'museu',
     position: {lat: -15.796, lng: -47.90},
     title: "Museu",
     description: "Museus de Brasília O Museu da Fotografia Documental www.mfd.mus.br é um web museu nascido em Brasília com características bem definidas"
   },
   {
+    id: 2,
     name: 'whatever',
     position: {lat: -15.796, lng: -47.85},
     title: "Whatever",
@@ -27,15 +30,11 @@ function AppViewModel() {
   self.title = ko.observable("Brasília");
   self.description = ko.observable("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever");
 
-  // All places
+  // Array to all places and filtered places
   self.allPlaces = ko.observableArray();
-  locations.forEach(function(place) {
-    self.allPlaces.push(place);
-  })
-
-  // Filtered places (All included by default)
   self.filteredPlaces = ko.observableArray();
   locations.forEach(function(place) {
+    self.allPlaces.push(place);
     self.filteredPlaces.push(place);
   })
 

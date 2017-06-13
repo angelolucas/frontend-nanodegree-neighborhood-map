@@ -16,7 +16,7 @@
       <ul data-bind="foreach: filteredPlaces">
         <li
           class="navigation__item"
-          data-bind="click: function() { $parent.openLocation( $index() ) }"
+          data-bind="click: function() { $parent.openLocation( id ) }"
         ><span data-bind="text: title"></span></li>
       </ul>
 
