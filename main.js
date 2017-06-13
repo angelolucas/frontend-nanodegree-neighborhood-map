@@ -23,40 +23,41 @@ var locations = [
 function AppViewModel() {
   var self = this;
 
-  self.locations = ko.observableArray(locations);
-
+  // Default values in Single Box
   self.title = ko.observable("Brasília");
   self.description = ko.observable("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever");
 
-  // Array containing only the markers based on search
-  self.visible = self.locations;
+  // All places
+  self.allPlaces = ko.observableArray();
+  locations.forEach(function(place) {
+    self.allPlaces.push(place);
+  })
 
-  // Track user input
+  // Filtered places (All included by default)
+  self.filteredPlaces = ko.observableArray();
+  locations.forEach(function(place) {
+    self.filteredPlaces.push(place);
+  })
+
+  // Filter input
   self.userInput = ko.observable('');
 
-  // If user input is included in the place name, make it and its marker visible
-  // Otherwise, remove the place & marker
+  // On Change input filter
   self.filterMarkers = function () {
 
-    // Set all markers and places to not visible.
+    // LowerCase input filter
     var searchInput = self.userInput().toLowerCase();
 
-    self.visible.removeAll();
+    // Remove all places
+    self.filteredPlaces.removeAll();
 
-    self.locations().forEach(function (place) {
-      //place.marker.setVisible(false);
-      // Compare the name of each place to user input
-      // If user input is included in the name, set the place and marker as visible
-      if (place.name().toLowerCase().indexOf(searchInput) !== -1) {
-        self.visible.push(place);
+    // Includes only filtered places
+    self.allPlaces().forEach(function(place) {
+      if(place.name.indexOf(searchInput) !== -1) {
+        self.filteredPlaces.push(place);
       }
-    });
-    self.visible().forEach(function (place) {
-      place.marker.setVisible(true);
-    });
+    })
   };
-
-
 
   // Open Informations About the Location
   self.openLocation = function(key) {
@@ -84,39 +85,37 @@ ko.applyBindings(new AppViewModel());
 
 // Init Map
 //function initMap() {
-
+/*
 var clickMarker = function(index) {
   locations[index].marker.addListener('click', function() {
     openLocation(index);
   });
 };
 
-  var uluru = {lat: -15.79, lng: -47.91};
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 13,
-    center: uluru,
-    mapTypeControlOptions: {
-      position: google.maps.ControlPosition.TOP_CENTER
-    }
-  });
-
-  // Center map on Resize
-  google.maps.event.addDomListener(window, 'resize', function() {
-    map.setCenter(uluru);
-  })
-
-  // Create Markers
-  for (var i = 0; i < locations.length; i++) {
-    locations[i].marker = new google.maps.Marker({
-      position: locations[i].position,
-      map: map,
-      animation: google.maps.Animation.DROP
-    });
-    clickMarker(i);
+var uluru = {lat: -15.79, lng: -47.91};
+var map = new google.maps.Map(document.getElementById('map'), {
+  zoom: 13,
+  center: uluru,
+  mapTypeControlOptions: {
+    position: google.maps.ControlPosition.TOP_CENTER
   }
-//};
+});
 
+// Center map on Resize
+google.maps.event.addDomListener(window, 'resize', function() {
+  map.setCenter(uluru);
+})
 
+// Create Markers
+for (var i = 0; i < locations.length; i++) {
+  locations[i].marker = new google.maps.Marker({
+    position: locations[i].position,
+    map: map,
+    animation: google.maps.Animation.DROP
+  });
+  clickMarker(i);
+}
+*/
 
 // Show and Hide Navigation
 var toggleNavigation = function() {

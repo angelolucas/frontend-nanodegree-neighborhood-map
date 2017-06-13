@@ -43,6 +43,7 @@ body.closed-navigation .navigation {
   outline: none;
   position: absolute;
   left: 100%;
+  margin-left: 2px;
   top: 0;
   border: none;
   cursor: pointer;
