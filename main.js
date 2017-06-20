@@ -83,38 +83,38 @@ function AppViewModel() {
 ko.applyBindings(new AppViewModel());
 
 // Init Map
-//function initMap() {
-/*
-var clickMarker = function(index) {
-  locations[index].marker.addListener('click', function() {
-    openLocation(index);
-  });
-};
+function initMap() {
 
-var uluru = {lat: -15.79, lng: -47.91};
-var map = new google.maps.Map(document.getElementById('map'), {
-  zoom: 13,
-  center: uluru,
-  mapTypeControlOptions: {
-    position: google.maps.ControlPosition.TOP_CENTER
+  var clickMarker = function(index) {
+    locations[index].marker.addListener('click', function() {
+      openLocation(index);
+    });
+  };
+
+  var uluru = {lat: -15.79, lng: -47.91};
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 13,
+    center: uluru,
+    mapTypeControlOptions: {
+      position: google.maps.ControlPosition.TOP_CENTER
+    }
+  });
+
+  // Center map on Resize
+  google.maps.event.addDomListener(window, 'resize', function() {
+    map.setCenter(uluru);
+  })
+
+  // Create Markers
+  for (var i = 0; i < locations.length; i++) {
+    locations[i].marker = new google.maps.Marker({
+      position: locations[i].position,
+      map: map,
+      animation: google.maps.Animation.DROP
+    });
+    clickMarker(i);
   }
-});
-
-// Center map on Resize
-google.maps.event.addDomListener(window, 'resize', function() {
-  map.setCenter(uluru);
-})
-
-// Create Markers
-for (var i = 0; i < locations.length; i++) {
-  locations[i].marker = new google.maps.Marker({
-    position: locations[i].position,
-    map: map,
-    animation: google.maps.Animation.DROP
-  });
-  clickMarker(i);
 }
-*/
 
 // Show and Hide Navigation
 var toggleNavigation = function() {
