@@ -1,9 +1,9 @@
-var currentPosition = {lat: -15.79, lng: -47.91};
+var currentPosition = {lat: -15.794157, lng: -47.882529};
 
 // Init Map
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 13,
+    zoom: 12,
     center: currentPosition,
     mapTypeControlOptions: {
       position: google.maps.ControlPosition.TOP_CENTER
@@ -79,6 +79,12 @@ var AppViewModel = function() {
     // Create Single Box
     self.title(locations[key].title);
     self.description(locations[key].description);
+
+    // Close Sidebar on Click
+    if (document.body.clientWidth < 600) {
+      showHideNavigation('hide');
+    }
+
   }
 
   self.clickMarker = function(index) {
@@ -99,22 +105,28 @@ var AppViewModel = function() {
 };
 
 // Show and Hide Navigation
-var toggleNavigation = function() {
+var showHideNavigation = function(event) {
   var body = document.querySelector('body');
 
-  if ( body.classList.contains('closed-navigation')){
-    body.setAttribute('class', '');
-  } else {
-    body.setAttribute('class', 'closed-navigation');
+  if (event === 'show') {
+    body.setAttribute('class', 'show-navigation');
+  } else if (event === 'hide') {
+    body.setAttribute('class', 'hide-navigation');
+  } else if (event === 'toggle') {
+    if (body.classList.contains('hide-navigation')) {
+      body.setAttribute('class', '');
+    } else {
+      body.setAttribute('class', 'hide-navigation');
+    }
   }
 };
 
-// Closed Navigation for Mobile
+// hide Navigation for Mobile
 if (document.body.clientWidth > 600) {
-  toggleNavigation();
+  showHideNavigation('show');
 };
 
 var toggleButton = document.querySelector('.navigation__toggle');
 toggleButton.addEventListener('click', function() {
-  toggleNavigation();
+  showHideNavigation('toggle');
 });

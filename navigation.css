@@ -11,7 +11,7 @@
   border-right: 2px dashed #422b8e;
   padding: 10px;
 }
-body.closed-navigation .navigation {
+body.hide-navigation .navigation {
   transform: translateX(-100%);
 }
 .navigation__input {
@@ -26,7 +26,7 @@ body.closed-navigation .navigation {
 .navigation__list {
   overflow: auto;
   height: 100%;
-  padding-bottom: 100px; 
+  padding-bottom: 100px;
 }
 .navigation__item {
   padding: 10px;
@@ -91,11 +91,11 @@ body.closed-navigation .navigation {
   top: 9px;
   transform-origin: right;
 }
-body.closed-navigation span:before,
-body.closed-navigation span:after{
+body.hide-navigation span:before,
+body.hide-navigation span:after{
   transform: rotateZ(0deg);
 }
-body.closed-navigation span {
+body.hide-navigation span {
   background: #FF757D;
 }
 
