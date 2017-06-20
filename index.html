@@ -13,7 +13,7 @@
       <button class="navigation__toggle"><span></span></button>
       <input data-bind="textInput: userInput, event: {keyup: filterMarkers}" class="navigation__input" placeholder="filter" type="text">
 
-      <ul data-bind="foreach: filteredPlaces">
+      <ul class="navigation__list" data-bind="foreach: filteredPlaces">
         <li
           class="navigation__item"
           data-bind="click: function() { $parent.openLocation( id ) }"
@@ -34,6 +34,7 @@
     </main>
     <script src="http://knockoutjs.com/downloads/knockout-3.4.2.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC41H8UxUw2S_xvwbuisJpK-t3UHGTfjWE&callback=initMap"></script>
+    <script src="locations.js"></script>
     <script src="main.js"></script>
 
   </body>
