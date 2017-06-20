@@ -23,7 +23,27 @@ var locations = [
   },
 ];
 
-function AppViewModel() {
+// Init Map
+function initMap() {
+  var uluru = {lat: -15.79, lng: -47.91};
+  map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 13,
+    center: uluru,
+    mapTypeControlOptions: {
+      position: google.maps.ControlPosition.TOP_CENTER
+    }
+  });
+
+  // Center map on Resize
+  google.maps.event.addDomListener(window, 'resize', function() {
+    map.setCenter(uluru);
+  });
+
+  // Init AppViewModel after Google Maps
+  ko.applyBindings(new AppViewModel());
+};
+
+var AppViewModel = function() {
   var self = this;
 
   // Default values in Single Box
@@ -60,50 +80,30 @@ function AppViewModel() {
 
   // Open Informations About the Location
   self.openLocation = function(key) {
-    //var marker = locations[key].marker;
 
     // Remove animation from all markers
-    /*for(i in locations) {
+    for(i in locations) {
       locations[i].marker.setAnimation(null);
-    }*/
+    }
 
     // Animate clicked marker
-    /*if (marker.getAnimation() !== null) {
+    var marker = locations[key].marker;
+    if (marker.getAnimation() !== null) {
       marker.setAnimation(null);
     } else {
       marker.setAnimation(google.maps.Animation.BOUNCE);
-    }*/
+    }
 
     // Create Single Box
     self.title(locations[key].title);
     self.description(locations[key].description);
   }
-};
 
-ko.applyBindings(new AppViewModel());
-
-// Init Map
-function initMap() {
-
-  var clickMarker = function(index) {
+  self.clickMarker = function(index) {
     locations[index].marker.addListener('click', function() {
-      openLocation(index);
+      self.openLocation(index);
     });
   };
-
-  var uluru = {lat: -15.79, lng: -47.91};
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 13,
-    center: uluru,
-    mapTypeControlOptions: {
-      position: google.maps.ControlPosition.TOP_CENTER
-    }
-  });
-
-  // Center map on Resize
-  google.maps.event.addDomListener(window, 'resize', function() {
-    map.setCenter(uluru);
-  })
 
   // Create Markers
   for (var i = 0; i < locations.length; i++) {
@@ -112,9 +112,9 @@ function initMap() {
       map: map,
       animation: google.maps.Animation.DROP
     });
-    clickMarker(i);
+    self.clickMarker(i);
   }
-}
+};
 
 // Show and Hide Navigation
 var toggleNavigation = function() {
