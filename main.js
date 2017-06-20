@@ -23,12 +23,13 @@ var locations = [
   },
 ];
 
+var currentPosition = {lat: -15.79, lng: -47.91};
+
 // Init Map
 function initMap() {
-  var uluru = {lat: -15.79, lng: -47.91};
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 13,
-    center: uluru,
+    center: currentPosition,
     mapTypeControlOptions: {
       position: google.maps.ControlPosition.TOP_CENTER
     }
@@ -36,7 +37,7 @@ function initMap() {
 
   // Center map on Resize
   google.maps.event.addDomListener(window, 'resize', function() {
-    map.setCenter(uluru);
+    map.panTo(currentPosition);
   });
 
   // Init AppViewModel after Google Maps
@@ -93,6 +94,10 @@ var AppViewModel = function() {
     } else {
       marker.setAnimation(google.maps.Animation.BOUNCE);
     }
+
+    currentPosition = locations[key].position;
+
+    map.panTo(currentPosition);
 
     // Create Single Box
     self.title(locations[key].title);
