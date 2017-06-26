@@ -1,3 +1,4 @@
+// Default location
 var currentPosition = {lat: -15.794157, lng: -47.882529};
 
 // Init Map
@@ -10,7 +11,7 @@ function initMap() {
     }
   });
 
-  // Center map on Resize
+  // Center map on resize
   google.maps.event.addDomListener(window, 'resize', function() {
     map.panTo(currentPosition);
   });
@@ -24,7 +25,7 @@ var AppViewModel = function() {
 
   // Default values in Single Box
   self.title = ko.observable("Brasília");
-  self.description = ko.observable("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever");
+  self.description = ko.observable("Brasília é a capital federal do Brasil e a sede do governo do Distrito Federal. A capital está localizada na região Centro-Oeste do país, ao longo da região geográfica conhecida como Planalto Central.");
 
   // Array to all places and filtered places
   self.allPlaces = ko.observableArray();
@@ -76,9 +77,12 @@ var AppViewModel = function() {
     // Transition to Pan
     map.panTo(currentPosition);
 
+    var content = locations[key].wikipageid;
+    var wikipediaLink = '<a href="http://pt.wikipedia.org/?curid=' + content + '" target="_blank" class="wikipedia">Wikipedia</a>';
+
     // Create Single Box
     self.title(locations[key].title);
-    self.description(locations[key].description);
+    self.description(wikiContent[content].extract + wikipediaLink);
 
     // Close Sidebar on Click
     if (document.body.clientWidth < 600) {
@@ -104,6 +108,32 @@ var AppViewModel = function() {
   }
 };
 
+// Request Wikipedia API
+var ids = [];
+var wikiContent = {};
+
+for (var i = 0; i < locations.length; i++) {
+  ids.push(locations[i].wikipageid);
+};
+
+var url = 'https://pt.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&pageids=' + ids.join('%7C') + '&exintro=1&callback=?';
+
+$.ajax({
+  url: url,
+  type: 'GET',
+  contentType: "application/json; charset=utf-8",
+  async: false,
+  dataType: "json",
+  success: function(data, status, jqXHR) {
+    $.each(data.query.pages, function(key, value) {
+      wikiContent[key] = {
+        title: value.title,
+        extract: value.extract
+      };
+    });
+  }
+});
+
 // Show and Hide Navigation
 var showHideNavigation = function(event) {
   var body = document.querySelector('body');
@@ -121,11 +151,12 @@ var showHideNavigation = function(event) {
   }
 };
 
-// hide Navigation for Mobile
+// Hide Navigation for Mobile
 if (document.body.clientWidth > 600) {
   showHideNavigation('show');
 };
 
+// Open/Close navigation
 var toggleButton = document.querySelector('.navigation__toggle');
 toggleButton.addEventListener('click', function() {
   showHideNavigation('toggle');

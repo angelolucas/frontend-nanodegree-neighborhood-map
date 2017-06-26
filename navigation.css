@@ -37,7 +37,7 @@ body.hide-navigation .navigation {
   color: black;
 }
 .navigation__about {
-  background: linear-gradient(transparent, white 30%);
+  background: linear-gradient(transparent, #FF757D 30%);
   padding: 30px 20px 20px;
   position: absolute;
   bottom: 0;
