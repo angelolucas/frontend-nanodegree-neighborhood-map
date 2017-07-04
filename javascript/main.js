@@ -57,15 +57,15 @@ var AppViewModel = function() {
   };
 
   // Open Informations About the Location
-  self.openLocation = function(key) {
+  self.openLocation = function(location) {
 
     // Remove animation from all markers
-    for(i in locations) {
-      locations[i].marker.setAnimation(null);
-    }
+    locations.forEach(function(locationMarker) {
+      locationMarker.marker.setAnimation(null);
+    });
 
     // Animate clicked marker
-    var marker = locations[key].marker;
+    var marker = location.marker;
     if (marker.getAnimation() !== null) {
       marker.setAnimation(null);
     } else {
@@ -73,16 +73,16 @@ var AppViewModel = function() {
     }
 
     // Update currentPosition
-    currentPosition = locations[key].position;
+    currentPosition = location.position;
 
     // Transition to Pan
     map.panTo(currentPosition);
 
     // Update Single Box
-    var content = locations[key].wikipageid;
+    var content = location.wikipageid;
     var wikipediaLink = '<a href="http://pt.wikipedia.org/?curid=' + content + '" target="_blank" class="wikipedia">Wikipedia</a>';
 
-    self.title(locations[key].title);
+    self.title(location.title);
     self.description(wikiContent[content].extract + wikipediaLink);
 
     // Close Sidebar on Click
@@ -91,30 +91,30 @@ var AppViewModel = function() {
     }
   };
 
-  self.clickMarker = function(index) {
-    locations[index].marker.addListener('click', function() {
-      self.openLocation(index);
+  self.clickMarker = function(location) {
+    location.marker.addListener('click', function() {
+      self.openLocation(location);
     });
   };
 
   // Create Markers
-  for (var i = 0; i < locations.length; i++) {
-    locations[i].marker = new google.maps.Marker({
-      position: locations[i].position,
+  locations.forEach(function(location) {
+    location.marker = new google.maps.Marker({
+      position: location.position,
       map: map,
       animation: google.maps.Animation.DROP
     });
-    self.clickMarker(i);
-  }
+    self.clickMarker(location);
+  });
 };
 
 // Request Wikipedia API
 var ids = [];
 var wikiContent = {};
 
-for (var i = 0; i < locations.length; i++) {
-  ids.push(locations[i].wikipageid);
-};
+locations.forEach(function(location) {
+  ids.push(location.wikipageid);
+});
 
 var url = 'https://pt.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&pageids=' + ids.join('%7C') + '&exintro=1&callback=?';
 
