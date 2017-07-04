@@ -2,6 +2,7 @@
 var currentPosition = {lat: -15.794157, lng: -47.882529};
 
 // Init Map
+var map;
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
@@ -24,8 +25,8 @@ var AppViewModel = function() {
   var self = this;
 
   // Default values in Single Box
-  self.title = ko.observable("Brasília");
-  self.description = ko.observable("Brasília é a capital federal do Brasil e a sede do governo do Distrito Federal. A capital está localizada na região Centro-Oeste do país, ao longo da região geográfica conhecida como Planalto Central.");
+  self.title = ko.observable('Brasília');
+  self.description = ko.observable('Brasília é a capital federal do Brasil e a sede do governo do Distrito Federal. A capital está localizada na região Centro-Oeste do país, ao longo da região geográfica conhecida como Planalto Central.');
 
   // Array to all places and filtered places
   self.allPlaces = ko.observableArray();
@@ -33,7 +34,7 @@ var AppViewModel = function() {
   locations.forEach(function(place) {
     self.allPlaces.push(place);
     self.filteredPlaces.push(place);
-  })
+  });
 
   // Filter input
   self.userInput = ko.observable('');
@@ -52,7 +53,7 @@ var AppViewModel = function() {
       if(place.title.toLowerCase().indexOf(searchInput) !== -1) {
         self.filteredPlaces.push(place);
       }
-    })
+    });
   };
 
   // Open Informations About the Location
@@ -77,10 +78,10 @@ var AppViewModel = function() {
     // Transition to Pan
     map.panTo(currentPosition);
 
+    // Update Single Box
     var content = locations[key].wikipageid;
     var wikipediaLink = '<a href="http://pt.wikipedia.org/?curid=' + content + '" target="_blank" class="wikipedia">Wikipedia</a>';
 
-    // Create Single Box
     self.title(locations[key].title);
     self.description(wikiContent[content].extract + wikipediaLink);
 
@@ -88,8 +89,7 @@ var AppViewModel = function() {
     if (document.body.clientWidth < 600) {
       showHideNavigation('hide');
     }
-
-  }
+  };
 
   self.clickMarker = function(index) {
     locations[index].marker.addListener('click', function() {
@@ -121,9 +121,9 @@ var url = 'https://pt.wikipedia.org/w/api.php?action=query&format=json&prop=extr
 $.ajax({
   url: url,
   type: 'GET',
-  contentType: "application/json; charset=utf-8",
+  contentType: 'application/json; charset=utf-8',
   async: false,
-  dataType: "json",
+  dataType: 'json',
   success: function(data, status, jqXHR) {
     $.each(data.query.pages, function(key, value) {
       wikiContent[key] = {
