@@ -28,12 +28,32 @@ var AppViewModel = function() {
   self.title = ko.observable('Brasília');
   self.description = ko.observable('Brasília é a capital federal do Brasil e a sede do governo do Distrito Federal. A capital está localizada na região Centro-Oeste do país, ao longo da região geográfica conhecida como Planalto Central.');
 
+  // Open Location by clicking the map marker
+  self.clickMarker = function(location) {
+    location.marker.addListener('click', function() {
+      self.openLocation(location);
+    });
+  };
+
   // Array to all places and filtered places
   self.allPlaces = ko.observableArray();
   self.filteredPlaces = ko.observableArray();
-  locations.forEach(function(place) {
-    self.allPlaces.push(place);
-    self.filteredPlaces.push(place);
+
+  locations.forEach(function(location) {
+
+    // Filling the array for all places. Useful for searching filtered places
+    self.allPlaces.push(location);
+
+    // Filling the array to filtered places. Useful to start with the complete list
+    self.filteredPlaces.push(location);
+
+    // Create Markers
+    location.marker = new google.maps.Marker({
+      position: location.position,
+      map: map,
+      animation: google.maps.Animation.DROP
+    });
+    self.clickMarker(location);
   });
 
   // Filter input
@@ -65,11 +85,10 @@ var AppViewModel = function() {
     });
 
     // Animate clicked marker
-    var marker = location.marker;
-    if (marker.getAnimation() !== null) {
-      marker.setAnimation(null);
+    if (location.marker.getAnimation() !== null) {
+      location.marker.setAnimation(null);
     } else {
-      marker.setAnimation(google.maps.Animation.BOUNCE);
+      location.marker.setAnimation(google.maps.Animation.BOUNCE);
     }
 
     // Update currentPosition
@@ -90,22 +109,6 @@ var AppViewModel = function() {
       showHideNavigation('hide');
     }
   };
-
-  self.clickMarker = function(location) {
-    location.marker.addListener('click', function() {
-      self.openLocation(location);
-    });
-  };
-
-  // Create Markers
-  locations.forEach(function(location) {
-    location.marker = new google.maps.Marker({
-      position: location.position,
-      map: map,
-      animation: google.maps.Animation.DROP
-    });
-    self.clickMarker(location);
-  });
 };
 
 // Request Wikipedia API
