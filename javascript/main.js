@@ -20,8 +20,36 @@ function initMap() {
   ko.applyBindings(new AppViewModel());
 };
 
+// AppViewModel
 var AppViewModel = function() {
   var self = this;
+  var wikipediaContent = {};
+
+  // Wikipedia API
+  self.requestWikipedia = function() {
+    var pagesids = [];
+
+    locations.forEach(function(location) {
+      pagesids.push(location.wikipediaPageid);
+    });
+
+    var url = 'https://pt.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&pageids=' + pagesids.join('%7C') + '&exintro=1&callback=?';
+
+    $.ajax({
+      url: url,
+      type: 'GET',
+      contentType: 'application/json; charset=utf-8',
+      async: false,
+      dataType: 'json',
+      success: function(data, status, jqXHR) {
+        $.each(data.query.pages, function(key, value) {
+          wikipediaContent[key] = {
+            description: value.extract
+          };
+        });
+      }
+    });
+  }
 
   // Navigation view
   self.navigation = ko.observable(true);
@@ -106,41 +134,17 @@ var AppViewModel = function() {
     map.panTo(currentPosition);
 
     // Update Single Box
-    var content = location.wikipageid;
-    var wikipediaLink = '<a href="http://pt.wikipedia.org/?curid=' + content + '" target="_blank" class="wikipedia">Wikipedia</a>';
+    var wikipediaLink = '<br><br><a href="http://pt.wikipedia.org/?curid=' + location.wikipediaPageid + '" target="_blank">Wikipedia</a>';
 
     self.title(location.title);
-    self.description(wikiContent[content].extract + wikipediaLink);
+    self.description(wikipediaContent[location.wikipediaPageid].description + wikipediaLink);
 
     // Close Sidebar on click on smartphone
     if (document.body.clientWidth < 600) {
       self.navigation(false);
     }
   };
+
+  // Init Request Wikipedia API
+  self.requestWikipedia();
 };
-
-// Request Wikipedia API
-var ids = [];
-var wikiContent = {};
-
-locations.forEach(function(location) {
-  ids.push(location.wikipageid);
-});
-
-var url = 'https://pt.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&pageids=' + ids.join('%7C') + '&exintro=1&callback=?';
-
-$.ajax({
-  url: url,
-  type: 'GET',
-  contentType: 'application/json; charset=utf-8',
-  async: false,
-  dataType: 'json',
-  success: function(data, status, jqXHR) {
-    $.each(data.query.pages, function(key, value) {
-      wikiContent[key] = {
-        title: value.title,
-        extract: value.extract
-      };
-    });
-  }
-});
