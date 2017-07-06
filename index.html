@@ -5,6 +5,7 @@
     <title>Neighborhood Map</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="style/style.css" rel="stylesheet" type="text/css" />
+    <link href="style/loading.css" rel="stylesheet" type="text/css" />
     <link href="style/navigation.css" rel="stylesheet" type="text/css" />
     <link href="style/content.css" rel="stylesheet" type="text/css" />
   </head>
@@ -12,26 +13,29 @@
     <div class="navigation">
       <button class="navigation__toggle" data-bind="click: toggleNavigation"><span></span></button>
       <input data-bind="textInput: userInput, event: {keyup: filterMarkers}" class="navigation__input" placeholder="filter" type="text">
-
       <ul class="navigation__list" data-bind="foreach: filteredPlaces">
         <li
           class="navigation__item"
           data-bind="click: function() { $parent.openLocation( $data ) }"
         ><span data-bind="text: title"></span></li>
       </ul>
-
       <div class="navigation__about">
         <span>Udacity Neighborhood Map</span>
         <span>By Ângelo Lucas. 2017</span>
       </div>
     </div>
     <main class="main">
-      <div id="map"></div>
+      <div class="google-maps">
+        <span class="google-maps--error">Infelizmente não foi possível carregar o mapa, por favor, tente mais tarde.</span>
+      </div>
       <div class="single-box">
         <h1 data-bind="text: title"></h1>
         <p data-bind="html: description"></p>
       </div>
     </main>
+    <div class="loading" data-bind="css: {'loading--hide': loading() === false}">
+      <span class="loading__info">Carregando</span>
+    </div>
 
     <!-- Scripts -->
     <script src="javascript/jquery.min.js"></script>

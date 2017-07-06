@@ -3,7 +3,7 @@ var map;
 var currentPosition = initValues.position;
 
 function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.querySelector('.google-maps'), {
     zoom: 12,
     center: currentPosition,
     mapTypeControlOptions: {
@@ -19,6 +19,14 @@ function initMap() {
   // Init AppViewModel after Google Maps
   ko.applyBindings(new AppViewModel());
 };
+
+// For the case of error in the request of google maps
+setTimeout(function(){
+  if (map === undefined) {
+    // Init AppViewModel without Google Maps
+    ko.applyBindings(new AppViewModel());
+  }
+}, 3000);
 
 // AppViewModel
 var AppViewModel = function() {
@@ -90,12 +98,14 @@ var AppViewModel = function() {
     self.filteredPlaces.push(location);
 
     // Create Markers
-    location.marker = new google.maps.Marker({
-      position: location.position,
-      map: map,
-      animation: google.maps.Animation.DROP
-    });
-    self.clickMarker(location);
+    if (map != undefined) {
+      location.marker = new google.maps.Marker({
+        position: location.position,
+        map: map,
+        animation: google.maps.Animation.DROP
+      });
+      self.clickMarker(location);
+    }
   });
 
   // Filter input
@@ -122,16 +132,18 @@ var AppViewModel = function() {
   self.openLocation = function(location) {
 
     // Animate clicked marker
-    location.marker.setAnimation(google.maps.Animation.BOUNCE);
-    setTimeout(function() {
-      location.marker.setAnimation(null);
-    }, 1500);
+    if (map != undefined) {
+      location.marker.setAnimation(google.maps.Animation.BOUNCE);
+      setTimeout(function() {
+        location.marker.setAnimation(null);
+      }, 1500);
 
-    // Update currentPosition
-    currentPosition = location.position;
+      // Update currentPosition
+      currentPosition = location.position;
 
-    // Transition to Pan
-    map.panTo(currentPosition);
+      // Transition to Pan
+      map.panTo(currentPosition);
+    }
 
     // Update Single Box
     var wikipediaLink = '<a href="http://pt.wikipedia.org/?curid=' + location.wikipediaPageid + '" target="_blank">Wikipedia</a>';
@@ -152,4 +164,7 @@ var AppViewModel = function() {
 
   // Init Request Wikipedia API
   self.requestWikipedia();
+
+  // Hide Loading
+  self.loading = ko.observable(false);
 };

@@ -1,0 +1,39 @@
+.loading {
+  transition: 0.3s;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background: #422B8E;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  top: 0;
+  left: 0;
+}
+.loading--hide {
+  opacity: 0;
+  pointer-events: none;
+}
+.loading__info {
+  text-align: center;
+}
+.loading__info:after {
+  animation: 1s loading infinite;
+  content: "";
+}
+
+@keyframes loading {
+  0% {
+    content: "";
+  }
+  25% {
+    content: ".";
+  }
+  50% {
+    content: "..";
+  }
+  75% {
+    content: "...";
+  }
+}
