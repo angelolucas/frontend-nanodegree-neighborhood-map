@@ -8,15 +8,15 @@
     <link href="style/navigation.css" rel="stylesheet" type="text/css" />
     <link href="style/content.css" rel="stylesheet" type="text/css" />
   </head>
-  <body class="hide-navigation">
+  <body data-bind="css: {'hide-navigation': navigation() === false}">
     <div class="navigation">
-      <button class="navigation__toggle"><span></span></button>
+      <button class="navigation__toggle" data-bind="click: toggleNavigation"><span></span></button>
       <input data-bind="textInput: userInput, event: {keyup: filterMarkers}" class="navigation__input" placeholder="filter" type="text">
 
       <ul class="navigation__list" data-bind="foreach: filteredPlaces">
         <li
           class="navigation__item"
-          data-bind="click: function() { $parent.openLocation( id ) }"
+          data-bind="click: function() { $parent.openLocation( $data ) }"
         ><span data-bind="text: title"></span></li>
       </ul>
 

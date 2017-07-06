@@ -24,6 +24,21 @@ function initMap() {
 var AppViewModel = function() {
   var self = this;
 
+  // Navigation view
+  self.navigation = ko.observable(true);
+
+  if (document.body.clientWidth < 600) {
+    self.navigation(false);
+  }
+
+  self.toggleNavigation = function() {
+    if (self.navigation() === true) {
+      self.navigation(false);
+    } else {
+      self.navigation(true);
+    }
+  }
+
   // Default values in Single Box
   self.title = ko.observable('Brasília');
   self.description = ko.observable('Brasília é a capital federal do Brasil e a sede do governo do Distrito Federal. A capital está localizada na região Centro-Oeste do país, ao longo da região geográfica conhecida como Planalto Central.');
@@ -104,9 +119,9 @@ var AppViewModel = function() {
     self.title(location.title);
     self.description(wikiContent[content].extract + wikipediaLink);
 
-    // Close Sidebar on Click
+    // Close Sidebar on click on smartphone
     if (document.body.clientWidth < 600) {
-      showHideNavigation('hide');
+      self.navigation(false);
     }
   };
 };
@@ -135,32 +150,4 @@ $.ajax({
       };
     });
   }
-});
-
-// Show and Hide Navigation
-var showHideNavigation = function(event) {
-  var body = document.querySelector('body');
-
-  if (event === 'show') {
-    body.setAttribute('class', 'show-navigation');
-  } else if (event === 'hide') {
-    body.setAttribute('class', 'hide-navigation');
-  } else if (event === 'toggle') {
-    if (body.classList.contains('hide-navigation')) {
-      body.setAttribute('class', '');
-    } else {
-      body.setAttribute('class', 'hide-navigation');
-    }
-  }
-};
-
-// Hide Navigation for Mobile
-if (document.body.clientWidth > 600) {
-  showHideNavigation('show');
-};
-
-// Open/Close navigation
-var toggleButton = document.querySelector('.navigation__toggle');
-toggleButton.addEventListener('click', function() {
-  showHideNavigation('toggle');
 });
