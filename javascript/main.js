@@ -1,8 +1,7 @@
-// Default location
-var currentPosition = {lat: -15.794157, lng: -47.882529};
-
 // Init Map
 var map;
+var currentPosition = initValues.position;
+
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
@@ -40,8 +39,8 @@ var AppViewModel = function() {
   }
 
   // Default values in Single Box
-  self.title = ko.observable('Brasília');
-  self.description = ko.observable('Brasília é a capital federal do Brasil e a sede do governo do Distrito Federal. A capital está localizada na região Centro-Oeste do país, ao longo da região geográfica conhecida como Planalto Central.');
+  self.title = ko.observable(initValues.title);
+  self.description = ko.observable(initValues.description);
 
   // Open Location by clicking the map marker
   self.clickMarker = function(location) {
@@ -91,7 +90,7 @@ var AppViewModel = function() {
     });
   };
 
-  // Open Informations About the Location
+  // Open Informations about the location
   self.openLocation = function(location) {
 
     // Animate clicked marker

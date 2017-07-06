@@ -1,3 +1,10 @@
+// Initial Values
+var initValues = {
+  title: 'Brasília',
+  description: 'Brasília é a capital federal do Brasil e a sede do governo do Distrito Federal. A capital está localizada na região Centro-Oeste do país, ao longo da região geográfica conhecida como Planalto Central. Segundo estimativa do Instituto Brasileiro de Geografia e Estatística (IBGE) para 2016, sua população era de 2 977 216 habitantes (4 284 676 em sua área metropolitana), sendo, então, a terceira cidade mais populosa do país. Brasília é também a quinta concentração urbana mais populosa do Brasil. A capital brasileira é a maior cidade do mundo construída no século XX. <br><br><a href="https://pt.wikipedia.org/wiki/Bras%C3%ADlia" target="_blank">Wikipedia</a>',
+  position: {lat: -15.794157, lng: -47.882529},
+};
+
 // Locations
 var locations = [
   {
