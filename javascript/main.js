@@ -94,17 +94,11 @@ var AppViewModel = function() {
   // Open Informations About the Location
   self.openLocation = function(location) {
 
-    // Remove animation from all markers
-    locations.forEach(function(locationMarker) {
-      locationMarker.marker.setAnimation(null);
-    });
-
     // Animate clicked marker
-    if (location.marker.getAnimation() !== null) {
+    location.marker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function() {
       location.marker.setAnimation(null);
-    } else {
-      location.marker.setAnimation(google.maps.Animation.BOUNCE);
-    }
+    }, 1500);
 
     // Update currentPosition
     currentPosition = location.position;
