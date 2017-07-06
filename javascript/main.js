@@ -41,15 +41,15 @@ var AppViewModel = function() {
       contentType: 'application/json; charset=utf-8',
       async: false,
       dataType: 'json',
-      success: function(data, status, jqXHR) {
-        $.each(data.query.pages, function(key, value) {
-          wikipediaContent[key] = {
-            description: value.extract
-          };
-        });
-      }
+    })
+    .done(function(data) {
+      $.each(data.query.pages, function(key, value) {
+        wikipediaContent[key] = {
+          description: value.extract
+        };
+      });
     });
-  }
+  };
 
   // Navigation view
   self.navigation = ko.observable(true);
@@ -64,7 +64,7 @@ var AppViewModel = function() {
     } else {
       self.navigation(true);
     }
-  }
+  };
 
   // Default values in Single Box
   self.title = ko.observable(initValues.title);
@@ -134,10 +134,15 @@ var AppViewModel = function() {
     map.panTo(currentPosition);
 
     // Update Single Box
-    var wikipediaLink = '<br><br><a href="http://pt.wikipedia.org/?curid=' + location.wikipediaPageid + '" target="_blank">Wikipedia</a>';
+    var wikipediaLink = '<a href="http://pt.wikipedia.org/?curid=' + location.wikipediaPageid + '" target="_blank">Wikipedia</a>';
 
     self.title(location.title);
-    self.description(wikipediaContent[location.wikipediaPageid].description + wikipediaLink);
+
+    if(Object.keys(wikipediaContent).length) {
+      self.description(wikipediaContent[location.wikipediaPageid].description + wikipediaLink);
+    } else {
+      self.description('Infelizmente não foi possível trazer informações sobre este local no momento, tente mais tarde ou acesse a página na ' + wikipediaLink + '.');
+    }
 
     // Close Sidebar on click on smartphone
     if (document.body.clientWidth < 600) {
